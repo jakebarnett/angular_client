@@ -1,5 +1,5 @@
 process.env.MONGO_URI = 'mongodb://localhost/unicorn_corral_no_auth'
-require('../server.js');
+require('../../server.js');
 var chai = require('chai');
 var chaihttp = require('chai-http');
 var mongoose = require('mongoose');
@@ -43,10 +43,10 @@ describe('unicorns api endpoints', function(){
 });
 
 describe('the put and delete endpoints', function(){
-	var id	
+	var id
 	before(function(done) {
 		chai.request('localhost:3000/api')
-		.post('/unicorns')	
+		.post('/unicorns')
 		.send({unicornName: "Testy" , unicornAge: "1000"})
 		.end(function(err,res){
 			id = res.body._id;
@@ -74,7 +74,7 @@ describe('the put and delete endpoints', function(){
 				done();
 			})
 		})
-	
+
 	after(function(done){
 		mongoose.connection.db.dropDatabase(function(){
 			done();
@@ -82,4 +82,3 @@ describe('the put and delete endpoints', function(){
 	});
 
 });
-
