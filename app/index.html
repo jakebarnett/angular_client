@@ -5,9 +5,34 @@
   <title>Hello World</title>
 </head>
 <body data-ng-app="UnicornsApp">
-  <h1>Hello World</h1>
-  <a href="/other_page.html">AnotherPage</a>
+  <main data-ng-controller = "UnicornsController" data-ng-init ="getAll()">
+    <h1>Unicorns: </h1>
+    <form name="New Unicorn">
+      <label for ="newUnicornName">New Unicorn Name</label>
+      <input type = "text" id="newUnicornName" data-ng-model="newUnicorn.unicornName"></input>
+      <label for ="newUnicornAge">New Unicorn Age</label>
+      <input type = "text" id="newUnicornAge" data-ng-model="newUnicorn.unicornAge"></input>
+      <input type="submit"data-ng-click="create(newUnicorn)">Save New Unicorn</button>
+    </form>
+    <ul data-ng-repeat = "unicorn in unicorns">
+      <li>
+        {{unicorn.unicornName}}
+      </li>
+      <li>
+        {{unicorn.unicornAge}}
+        <form data-ng-if="unicorn.editing">
+          <label for="unicorn{{unicorn._id}}">Edit Unicorn</label>
+          <input type='text' id='unicorn{{unicorn._id}}' data-ng-model="unicorn.unicornName">
+          <input type='text' id='unicorn{{unicorn._id}}' data-ng-model="unicorn.unicornAge">
+          <button type="submit" data-ng-click="save(unicorn)">Save Changes</button>
+          <button type="button" data-ng-click="editToggle(unicorn)">Cancel</button>
+        </form>
+        <button data-ng-click="editToggle(unicorn)" data-ng-if="!unicorn.editing">Edit Unicorn</button>
+        <button data-ng-click="remove(unicorn)">Delete</button>
+      </li>
+    </ul>
+  </main>
 
-  <script src='bundle.js'></script>
+  <script src="bundle.js"></script>
 </body>
 </html>
