@@ -1,9 +1,60 @@
+#github-link{
+  margin-right: 20px;
+}
 main {
-  border: 1px solid black;
+  border: 5px solid black;
+  width: 75%;
+  margin-left:auto;
+  margin-right: auto;
+  margin-bottom: 25px;
+  align: center;
 }
 
 form[name="New Unicorn"]{
-  border: 1px solid black;
-  padding: 5px;
-  margin: 3px;
+  width: 50%;
+  padding-top: 10px;
+  margin-left:auto;
+  margin-right: auto;
+  align: center;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.corral {
+  background-color: white;
+}
+
+.jumbotron {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+body {
+background-color: #30E8FC;
+}
+
+ul {
+  list-style-type: none;
+  margin-bottom : 0px;
+}
+
+li {
+  margin-top: 10px;
+}
+.unicorn-image {
+  height: 270px;
+  width: 270px;
+  border: 5px solid black;
+  border-radius:100%;
+}
+
+.unicorn-thumb {
+  height: 75;
+  width: 75;
+  border-radius: 100%;
+  border: 3px black solid;
+}
+
+.btn{
+  width: 100%;
 }
