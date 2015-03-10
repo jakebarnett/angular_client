@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var express = require('express');
 var unicornRoutes = require('./routes/unicorn_routes');
 
-mongoose.connect(process.env.MONG_URI || 'mongodb://localhost/unicorn_corral_no_auth');
+mongoose.connect(process.env.MONGLAB_URI || 'mongodb://localhost/unicorn_corral_no_auth');
 
 var app = express();
 app.use(express.static(__dirname + '/build'));
