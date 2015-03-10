@@ -15,5 +15,5 @@ unicornRoutes(unicornRouter, app.get('appSecret'));
 app.use('/api', unicornRouter);
 
 app.listen(process.env.PORT || 3000, function(){
-	console.log("server listening");
+	console.log("server listening on port "+ (process.env.PORT || 3000));
 });
