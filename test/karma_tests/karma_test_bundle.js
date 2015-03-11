@@ -5,66 +5,99 @@ require("./../../bower_components/angular/angular");
 
 var UnicornsApp = angular.module('UnicornsApp' , []);
 
+//services
+require('./services/resource_service')(UnicornsApp);
+
+
+//controllers
 require('./unicorns/controllers/unicorns_controller')(UnicornsApp);
 
-},{"./../../bower_components/angular/angular":4,"./unicorns/controllers/unicorns_controller":2}],2:[function(require,module,exports){
+//directives
+
+},{"./../../bower_components/angular/angular":5,"./services/resource_service":2,"./unicorns/controllers/unicorns_controller":3}],2:[function(require,module,exports){
+'use strict';
+
+module.exports = function (app) {
+  var handleError = function (data) {
+    console.log(data);
+  };
+
+  app.factory('resource' ,['$http' , function($http) {
+    return function(resourceName) {
+      return {
+        getAll: function(callback) {
+          $http({
+            method: 'GET',
+            url: '/api/' + resourceName
+          })
+          .success(callback)
+          .error(handleError);
+        },
+
+        create: function(resource, callback) {
+          $http({
+            method: 'POST',
+            url: '/api/' + resourceName,
+            data: resource
+          })
+          .success(callback)
+          .error(handleError);
+        },
+
+        save: function(resource, callback) {
+          $http({
+            method: 'PUT',
+            url: '/api/' + resourceName + '/' + resource._id,
+            data: resource
+          })
+          .success(callback)
+          .error(handleError);
+        },
+
+        remove: function(resource, callback) {
+          $http({
+            method: 'DELETE',
+            url: '/api/' + resourceName + '/' + resource._id
+          })
+          .success(callback)
+          .error(handleError);
+        }
+      };
+    };
+  }]);
+};
+
+},{}],3:[function(require,module,exports){
 'use strict';
 
 module.exports = function(app) {
-  app.controller('UnicornsController', ['$scope', '$http', function($scope, $http) {
+  app.controller('UnicornsController', ['$scope', 'resource', function($scope, resource) {
     $scope.unicorns = [];
+
+    var Unicorn = resource('unicorns');
+    
     $scope.getAll = function(){
-      $http({
-        method: 'GET',
-        url: '/api/unicorns'
-      })
-      .success(function(data) {
+      Unicorn.getAll(function(data) {
         $scope.unicorns = data;
-      })
-      .error(function(data, status) {
-        console.log(data);
-      })
+      });
     };
 
     $scope.create = function(unicorn){
-      $http({
-        method:'POST',
-        url: '/api/unicorns',
-        data: unicorn
-      })
-      .success(function(data) {
+      Unicorn.create(unicorn, function(data) {
         $scope.unicorns.push(data);
-      })
-      .error(function(data) {
-        console.log(data);
       })
     };
 
     $scope.save = function(unicorn) {
-      $http({
-        method: "PUT",
-        url: "/api/unicorns/" + unicorn._id,
-        data: unicorn
-      })
-      .success(function(data) {
+      Unicorn.save(unicorn, function(data) {
         unicorn.editing = false;
       })
-      .error(function(data) {
-        console.log(data);
-      });
     };
 
     $scope.remove = function(unicorn) {
-      $http({
-        method: 'DELETE',
-        url:'/api/unicorns/' + unicorn._id
-      })
-      .success(function(){
+      Unicorn.remove(unicorn, function(){
         $scope.unicorns.splice($scope.unicorns.indexOf(unicorn), 1);
       })
-      .error(function(data) {
-        console.log(data);
-      });
     };
 
     $scope.editToggle = function(unicorn){
@@ -81,7 +114,7 @@ module.exports = function(app) {
   }]);
 };
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.14
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -2479,7 +2512,7 @@ if (window.jasmine || window.mocha) {
 
 })(window, window.angular);
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.14
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -28661,7 +28694,7 @@ var minlengthDirective = function() {
 })(window, document);
 
 !window.angular.$$csp() && window.angular.element(document).find('head').prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}</style>');
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 require('../../app/js/client');
@@ -28741,4 +28774,4 @@ describe('unicorns controller', function() {
   });
 });
 
-},{"../../app/js/client":1,"./../../bower_components/angular-mocks/angular-mocks.js":3}]},{},[5]);
+},{"../../app/js/client":1,"./../../bower_components/angular-mocks/angular-mocks.js":4}]},{},[6]);
